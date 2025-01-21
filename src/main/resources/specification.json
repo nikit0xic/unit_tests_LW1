@@ -1,35 +1,3 @@
-# Setup
-
-First you need to set up vars to you vm to your project:
-```shell
-ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId -q -DforceStdout)
-VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-```
-note: execute it in same dir as _**pom.xml**_ or set it hardcode.
-
-Then set up variables to your CI/CD GitLab variables:
-- $CI_REGISTRY_USER
-- $CI_REGISTRY_NAME
-- $CI_REGISTRY_PASSWORD
-
-# Specification
-
-```json
-curl -X POST -H "Content-Type: application/json" \
-     -d '{"login":"nik", "email":"nik@example.com", "password":"nik", "role":["user"]}' \
-     http://cas-back-svc:8080/api/auth/signup
-```
-
-```json
-curl -X POST -H "Content-Type: application/json" \
-     -d '{"login":"nik","password":"nik"}' \
-     http://cas-back-svc:8080/api/auth/signin
-```
-
-```json
-Пример: 
-api_base_url=http://cas-back-svc:8080
-
 {
   "getCourses": {
     "url": "/course",
@@ -125,19 +93,20 @@ api_base_url=http://cas-back-svc:8080
     ]
   },
 
-  "updateProgress": { //GET, присылается, когда студент открывает инфо первый раз, при том что оно было непрочитано
+  "updateProgress": { //гет запрос, присылается, когда студент открывает инфо первый раз, при том что оно было непрочитано
     "url": "/student/info/{infoId}",
     "request": {
     },
-    "response": {//200 в случае успеха, код ошибки, если иначе
+    "response": {// 200 в случае успеха, код ошибки, если иначе
       "passed": false,
       "tryNumber": 0,
       "experience": 0,
       "progress": 0
     }
   },
-        
-   "setAnswer": { //  POST
+
+//  POST
+   "setAnswer": {
    "url": "/course/question",
     "request": {
       "questionId": 0,
@@ -152,7 +121,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "enrollInACourse": { //POST
+  "enrollInACourse": { //пост запрос
     "url": "/student/course",
     "request": {
       "courseId": 0
@@ -168,7 +137,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "ping": { //GET, вызывать с определенным периодом например раз в 5 минут, обновляет время последнего онлайн
+  "ping": { //гет запрос, вызывать с определенным периодом например раз в 5 минут, обновляет время последнего онлайн
     "url": "/student/ping",
     "request": {
     },
@@ -176,7 +145,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "createGuild": { //POST
+  "createGuild": { //пост запрос
     "url": "/guild/",
     "request": {
       "tagName": ""
@@ -186,7 +155,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "subscribeToGuild": { //PUT
+  "subscribeToGuild": { //put запрос
     "url": "/guild/subscription/{id}",
 
     "response": {
@@ -194,7 +163,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "unsubscribeGuild": { //POST
+  "unsubscribeGuild": { //пост запрос
     "url": "/guild/unsubscribe/{id}", //id гильдии
 
     "response": {
@@ -203,7 +172,7 @@ api_base_url=http://cas-back-svc:8080
     } //если подобных последствий не было то тела ответа не будет, чел просто отписался
   },
 
-  "getGuildList": { //GET
+  "getGuildList": { //гет запрос
     "url": "/guild/",
     "request": {
       "orderBy": "name"|"score"
@@ -230,7 +199,7 @@ api_base_url=http://cas-back-svc:8080
       "users": []
     }]
   },
-  "getGuild": { //GET
+  "getGuild": { //гет запрос
     "url": "/guild/{id}",
 
     "response": {
@@ -256,7 +225,7 @@ api_base_url=http://cas-back-svc:8080
     }
   },
 
-  "changeGuildDescription": { //PUT
+  "changeGuildDescription": { //пут запрос
     "url": "/guild/leader/edit", //описание подавать как Body
 
     "response": {
@@ -265,7 +234,7 @@ api_base_url=http://cas-back-svc:8080
 
   },
 
-  "getUserGuildIfHas": { //GET
+  "getUserGuildIfHas": { //гет запрос
     "url": "/student/ping/guildId", //описание подавать как Body
 
     "response": {
@@ -277,5 +246,3 @@ api_base_url=http://cas-back-svc:8080
 }
 
 //в случае ошибки в респонз будет параметр error с сообщением об ошибке
-```
-
